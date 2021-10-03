@@ -458,8 +458,6 @@ _cukinia_process()
 {
 	pname="$1"
 
-	_cukinia_prepare "Checking process \"$pname\" ${__not:+NOT }running as ${puser:-any user}"
-
 	shift
 
 	opts=$(getopt -n cukinia_process -- u:a: "$@")
@@ -484,12 +482,12 @@ cukinia_log '[DD] $# = '$#
 		shift
 	done
 
+	_cukinia_prepare "Checking process \"$pname\" ${__not:+NOT }running as ${puser:-any user}"
+
 	if [ -n "$puser" ]; then
 		# make sure $puser maps to a valid user
 		puser_uid="$(id -u "$puser" 2>/dev/null)"
 		[ -n "$puser_uid" ] || return 1
-
-		shift
 	fi
 
 	# scan /proc to get process name and optionally process owner
